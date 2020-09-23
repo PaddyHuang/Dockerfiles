@@ -1,7 +1,7 @@
 FROM centos
 MAINTAINER paddyace <huangblcs@outlook.com> 
 
-RUN yum update -y && yum groupinstall -y "Development Tools" 
+RUN yum update -y && yum install -y gcc gcc-c++ git make
 RUN yum install -y epel-release cmake vim boost boost-devel
 
 EXPOSE  22

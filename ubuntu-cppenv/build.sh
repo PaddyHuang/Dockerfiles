@@ -1,6 +1,6 @@
 #!/bin/bash
-version=1.0
-image="centos-cppenv"
+version=latest
+image="ubuntu-cppenv"
 repo="paddyace"
 
 docker build --rm -f dockerfile -t ${image}:${version} .
