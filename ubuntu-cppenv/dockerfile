@@ -1,6 +1,7 @@
 FROM ubuntu
 MAINTAINER paddyace <huangblcs@outlook.com> 
 
+RUN timedatectl set-timezone Asia/Shanghai
 RUN apt update -y && apt install -y gcc g++ git make cmake vim
 RUN apt install -y libboost-all-dev libicu-dev libgtest-dev
 
