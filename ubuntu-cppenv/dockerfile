@@ -1,8 +1,8 @@
 FROM ubuntu
 MAINTAINER paddyace <huangblcs@outlook.com> 
 
-RUN apt update -y && apt install -y gcc gcc-c++ git make
-RUN apt install -y cmake vim boost boost-devel
+RUN apt update -y && apt install -y gcc g++ git make cmake vim
+RUN apt install -y libboost-all-dev libicu-dev libgtest-dev
 
 EXPOSE  22
 
