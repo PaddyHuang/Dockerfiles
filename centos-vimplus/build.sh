@@ -1,9 +1,9 @@
 #!/bin/bash
-version=latest
+version=test
 image="centos-vimplus"
 repo="paddyace"
 
-docker build --rm -f dockerfile -t ${image}:${version} .
+docker buildx build --rm -f dockerfile -t ${image}:${version} --platform=linux/arm,linux/arm64,linux/amd64 .
 docker tag ${image}:${version} ${repo}/${image}:${version} 
 docker push ${repo}/${image}:${version}
 if [ $? -eq 0 ]; then
