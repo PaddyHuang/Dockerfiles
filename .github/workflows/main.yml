@@ -8,7 +8,7 @@ on:
       - "README.md"
  
 jobs:
-  buildx:
+  centos-cppenv-buildx:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -32,4 +32,54 @@ jobs:
           --platform=linux/amd64,linux/arm64 \
           --output "type=image,push=true" \
           --file ./centos-cppenv/dockerfile . \
+          --tag paddyace/centos-cppenv:latest
+  ubuntu-cppenv-buildx:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Dockerhub login
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        run: |
+          docker login -u paddyace -p ABC56pp2ab
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          buildx-version: latest
+      - name: Build dockerfile (with push)
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        run: |
+          docker buildx build \
+          --platform=linux/amd64,linux/arm64 \
+          --output "type=image,push=true" \
+          --file ./ubuntu-cppenv/dockerfile . \
+          --tag paddyace/centos-cppenv:latest
+  centos-vimplus-buildx:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Dockerhub login
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        run: |
+          docker login -u paddyace -p ABC56pp2ab
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          buildx-version: latest
+      - name: Build dockerfile (with push)
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        run: |
+          docker buildx build \
+          --platform=linux/amd64,linux/arm64 \
+          --output "type=image,push=true" \
+          --file ./centos-vimplus/dockerfile . \
           --tag paddyace/centos-cppenv:latest
