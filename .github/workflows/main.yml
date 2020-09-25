@@ -57,7 +57,7 @@ jobs:
           --platform=linux/amd64,linux/arm64 \
           --output "type=image,push=true" \
           --file ./ubuntu-cppenv/dockerfile . \
-          --tag paddyace/centos-cppenv:latest
+          --tag paddyace/ubuntu-cppenv:latest
   centos-vimplus-buildx:
     runs-on: ubuntu-latest
     steps:
@@ -82,4 +82,4 @@ jobs:
           --platform=linux/amd64,linux/arm64 \
           --output "type=image,push=true" \
           --file ./centos-vimplus/dockerfile . \
-          --tag paddyace/centos-cppenv:latest
+          --tag paddyace/centos-vimplus:latest
