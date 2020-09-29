@@ -3,6 +3,8 @@ MAINTAINER paddyace <huangblcs@outlook.com>
 
 ENV TZ Asia/Shanghai
 ENV LANG en.UTF-8
+ENV LANGUAGE en.UTF-8
+ENV LC_ALL en.UTF-8
 
 RUN sed -i 's#http://archive.ubuntu.com/#http://cn.archive.ubuntu.com/#' /etc/apt/sources.list
 
@@ -29,5 +31,4 @@ RUN mkdir -p /var/run/sshd
 
 EXPOSE  22
 
-CMD ["/usr/sbin/sshd", "-D"]
-
+ENTRYPOINT /usr/sbin/sshd -D
