@@ -1,16 +1,33 @@
 FROM ubuntu
 MAINTAINER paddyace <huangblcs@outlook.com> 
 
-RUN export DEBIAN_FRONTEND=noninteractive \
-    && apt-get update \
-    && apt-get install -y tzdata \
-    && ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && dpkg-reconfigure --frontend noninteractive tzdata
+ENV TZ Asia/Shanghai
+ENV LANG en.UTF-8
 
-RUN apt update -y && apt install -y gcc g++ git make cmake vim
-RUN apt install -y libboost-all-dev libicu-dev libgtest-dev
+RUN sed -i 's#http://archive.ubuntu.com/#http://cn.archive.ubuntu.com/#' /etc/apt/sources.list
+
+RUN apt-get update && \
+apt-get -y install vim && \
+apt-get -y install openssh-server && \
+apt-get clean && \
+rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+
+#RUN export DEBIAN_FRONTEND=noninteractive \
+#    && apt-get update \
+#    && apt-get install -y tzdata \
+#    && ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+#    && dpkg-reconfigure --frontend noninteractive tzdata
+
+RUN apt update -y && apt install -y gcc g++ git make cmake vim && apt install -y libboost-all-dev libicu-dev libgtest-dev
+
+RUN echo 'root:abc56pp2ab' |chpasswd
+
+RUN sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
+
+RUN mkdir -p /var/run/sshd
 
 EXPOSE  22
 
-CMD /usr/sbin/sshd -D
+CMD ["/usr/sbin/sshd", "-D"]
 
