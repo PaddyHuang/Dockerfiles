@@ -1,10 +1,29 @@
 FROM centos
 MAINTAINER paddyace <huangblcs@outlook.com> 
 
-RUN yum update -y && yum install -y gcc gcc-c++ git make
+#Install sshd net-tools
+RUN yum update -y && yum install -y openssh-server net-tools
+RUN mkdir /var/run/sshd
+
+# Install cpp env
+RUN yum install -y gcc gcc-c++ git make
 RUN yum install -y epel-release cmake vim boost boost-devel
 
-EXPOSE  22
+#Set password for root
+RUN echo 'root:abc56pp2ab' | chpasswd
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-CMD /usr/sbin/sshd -D
+#Set history record
+ENV HISTTIMEFORMAT "%F %T  "
 
+#Fix sshd service:Read from socket failed: Connection reset by peer?
+RUN ssh-keygen -A
+
+#Change timezone CST
+RUN \cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+#Open 22 port
+EXPOSE 22
+
+#Auto running sshd service
+CMD ["/usr/sbin/sshd","-D"]
