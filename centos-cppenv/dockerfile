@@ -8,6 +8,7 @@ RUN mkdir /var/run/sshd
 # Install cpp env
 RUN yum install -y gcc gcc-c++ git make
 RUN yum install -y epel-release cmake vim boost boost-devel
+RUN git clone https://github.com/google/googletest.git && cd googletest && cmake . && make && cp -r -v ./lib* /usr/lib/ && mkdir /usr/include/gtest && cp -r -v  ./googletest/include/gtest/* /usr/include/gtest/
 
 #Set password for root
 RUN echo 'root:abc56pp2ab' | chpasswd
